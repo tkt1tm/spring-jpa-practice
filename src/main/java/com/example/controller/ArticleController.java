@@ -101,4 +101,29 @@ public class ArticleController {
 
         return "redirect:/articles";
     }
+
+    /**
+     * 指定された記事を削除します.
+     *
+     * @param articleId 削除したい記事のID
+     * @param commentForm コメントの入力値チェックに使用します
+     * @param articleForm 記事の入力値をチェックに使用します
+     * @param model リクエストスコープを格納
+     * @return エラーがあればshowListを呼びます/問題なければ記事一覧ページへフォワード
+     */
+    @PostMapping("deletePost")
+    public String deletePost(Integer articleId, CommentForm commentForm, ArticleForm articleForm, Model model) {
+        Article article;
+
+        try {
+            article = articleService.getArticleById(articleId);
+        } catch (NoSuchElementException e) {
+            model.addAttribute("invalidArticleId", true);
+            return showList(model, articleForm, commentForm);
+        }
+
+        articleService.deleteArticle(article);
+
+        return "redirect:/articles";
+    }
 }

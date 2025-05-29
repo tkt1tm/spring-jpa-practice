@@ -31,7 +31,11 @@
         <p>投稿者名：<span th:text="${article.name}">山田</span></p>
         <p>投稿内容：</p>
         <pre th:text="${article.content}">新たな投稿です</pre>
-        <form action="mock.com" method="post">
+        <form
+          action="mock.com"
+          method="post"
+          th:action="@{/articles/deletePost}"
+        >
           <input type="hidden" name="articleId" th:value="${article.id}" />
           <button type="submit">記事削除</button>
         </form>

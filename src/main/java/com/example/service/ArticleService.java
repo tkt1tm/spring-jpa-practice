@@ -50,4 +50,13 @@ public class ArticleService {
     public void insertArticle(Article article) {
         articleRepository.save(article);
     }
+
+    /**
+     * 渡された記事とコメントを削除します.
+     *
+     * @param article 削除したい記事
+     */
+    public void deleteArticle(Article article) {
+        articleRepository.delete(article);
+    }
 }
