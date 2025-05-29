@@ -28,4 +28,13 @@ public class ArticleService {
     public List<Article> getAllArticles() {
         return articleRepository.findAll();
     }
+
+    /**
+     * 渡された記事を保存します.
+     *
+     * @param article 保存したい記事
+     */
+    public void insertArticle(Article article) {
+        articleRepository.save(article);
+    }
 }

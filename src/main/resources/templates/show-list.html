@@ -6,9 +6,21 @@
   </head>
   <body>
     <div>
-      <form action="mock.com" method="post">
-        投稿者名：<input type="text" name="name" /><br />
-        投稿内容：<br /><textarea name="content" cols="30" rows="3"></textarea
+      <form
+        action="mock.com"
+        method="post"
+        th:action="@{/articles/postArticle}"
+        th:object="${articleForm}"
+      >
+        <p th:errors="*{name}">エラーメッセージ</p>
+        投稿者名：<input type="text" name="name" th:field="*{name}" /><br />
+        <p th:errors="*{content}">エラーメッセージ</p>
+        投稿内容：<br /><textarea
+          name="content"
+          cols="30"
+          rows="3"
+          th:field="*{content}"
+        ></textarea
         ><br />
         <button type="submit">記事投稿</button>
       </form>
