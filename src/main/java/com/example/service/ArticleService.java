@@ -36,6 +36,7 @@ public class ArticleService {
      *
      * @param id 取得したい記事のID
      * @return 取得した記事
+     * @throws NoSuchElementException IDで記事が見つからなかった場合の例外
      */
     public Article getArticleById(Integer id) {
         Optional<Article> article = articleRepository.findById(id);

@@ -5,6 +5,7 @@
     <title>記事一覧</title>
   </head>
   <body>
+    <p th:if="${invalidArticleId}">不正な入力が行われました</p>
     <div>
       <form
         action="mock.com"
@@ -56,10 +57,10 @@
             </span>
             名前：
             <span th:if="${article.id} != *{articleId}">
-              <input type="text" name="name" />
+              <input type="text" name="commentName" />
             </span>
             <span th:if="${article.id} == *{articleId}">
-              <input type="text" name="name" th:field="*{commentName}" />
+              <input type="text" name="commentName" th:field="*{commentName}" />
             </span>
             <br />
             <span th:if="${article.id} == *{articleId}">
@@ -67,11 +68,11 @@
             </span>
             コメント：<br />
             <span th:if="${article.id} != *{articleId}">
-              <textarea name="content" cols="30" rows="3"></textarea>
+              <textarea name="commentContent" cols="30" rows="3"></textarea>
             </span>
             <span th:if="${article.id} == *{articleId}">
               <textarea
-                name="content"
+                name="commentContent"
                 cols="30"
                 rows="3"
                 th:field="*{commentContent}"

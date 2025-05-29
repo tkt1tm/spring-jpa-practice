@@ -6,7 +6,6 @@ import com.example.form.ArticleForm;
 import com.example.form.CommentForm;
 import com.example.service.ArticleService;
 import com.example.service.CommentService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 /**
@@ -64,7 +64,9 @@ public class ArticleController {
         }
 
         Article article = new Article();
-        BeanUtils.copyProperties(articleForm, article);
+        article.setName(articleForm.getName());
+        article.setContent(articleForm.getContent());
+        article.setCommentList(new ArrayList<>());
         articleService.insertArticle(article);
 
         return "redirect:/articles";
@@ -81,7 +83,8 @@ public class ArticleController {
      */
     @PostMapping("postComment")
     public String postComment(@Validated CommentForm commentForm, BindingResult result, ArticleForm articleForm, Model model) {
-        if (result.hasErrors()) {
+        if (commentForm.getArticleId() == null) {
+            model.addAttribute("invalidArticleId", true);
             return showList(model, articleForm, commentForm);
         }
 
@@ -94,10 +97,16 @@ public class ArticleController {
             return showList(model, articleForm, commentForm);
         }
 
+        if (result.hasErrors()) {
+            return showList(model, articleForm, commentForm);
+        }
+
         Comment comment = new Comment();
         comment.setName(commentForm.getCommentName());
         comment.setContent(commentForm.getCommentContent());
         comment.setArticle(article);
+
+        commentService.insertComment(comment);
 
         return "redirect:/articles";
     }
@@ -113,6 +122,11 @@ public class ArticleController {
      */
     @PostMapping("deletePost")
     public String deletePost(Integer articleId, CommentForm commentForm, ArticleForm articleForm, Model model) {
+        if (commentForm.getArticleId() == null) {
+            model.addAttribute("invalidArticleId", true);
+            return showList(model, articleForm, commentForm);
+        }
+
         Article article;
 
         try {
