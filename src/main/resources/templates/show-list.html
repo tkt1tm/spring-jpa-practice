@@ -41,12 +41,38 @@
           <pre th:text="${comment.name}">書き込みコメント</pre>
         </div>
         <div>
-          <form action="mock.com" method="post">
+          <form
+            action="mock.com"
+            method="post"
+            th:action="@{/articles/postComment}"
+            th:object="${commentForm}"
+          >
+            <span th:if="${article.id} == *{articleId}">
+              <p th:errors="*{commentName}">エラーメッセージ</p>
+            </span>
             名前：
-            <input type="text" name="commentName" />
+            <span th:if="${article.id} != *{articleId}">
+              <input type="text" name="name" />
+            </span>
+            <span th:if="${article.id} == *{articleId}">
+              <input type="text" name="name" th:field="*{commentName}" />
+            </span>
             <br />
+            <span th:if="${article.id} == *{articleId}">
+              <p th:errors="*{commentContent}">エラーメッセージ</p>
+            </span>
             コメント：<br />
-            <textarea name="commentContent" cols="30" rows="3"></textarea>
+            <span th:if="${article.id} != *{articleId}">
+              <textarea name="content" cols="30" rows="3"></textarea>
+            </span>
+            <span th:if="${article.id} == *{articleId}">
+              <textarea
+                name="content"
+                cols="30"
+                rows="3"
+                th:field="*{commentContent}"
+              ></textarea>
+            </span>
             <br />
             <input type="hidden" name="articleId" th:value="${article.id}" />
             <button type="submit">コメント投稿</button>

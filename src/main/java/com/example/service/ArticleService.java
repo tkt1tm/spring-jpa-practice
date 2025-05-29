@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 /**
  * 記事に関する機能の業務処理を行うクラス.
@@ -27,6 +29,17 @@ public class ArticleService {
      */
     public List<Article> getAllArticles() {
         return articleRepository.findAll();
+    }
+
+    /**
+     * 渡された記事IDを持つ記事を取得します.
+     *
+     * @param id 取得したい記事のID
+     * @return 取得した記事
+     */
+    public Article getArticleById(Integer id) {
+        Optional<Article> article = articleRepository.findById(id);
+        return article.orElseThrow(NoSuchElementException::new);
     }
 
     /**
