@@ -4,6 +4,11 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
+/**
+ * articlesテーブルのドメインを表すクラス.
+ *
+ * @author takuto.itami
+ */
 @Entity
 @Table(name = "articles")
 public class Article {
@@ -18,6 +23,7 @@ public class Article {
     /** 内容 */
     @Column(name = "content")
     private String content;
+    /** ついているコメントリスト */
     @OneToMany(mappedBy = "article")
     private List<Comment> commentList;
 

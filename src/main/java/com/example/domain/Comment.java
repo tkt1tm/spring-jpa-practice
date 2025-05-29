@@ -2,6 +2,11 @@ package com.example.domain;
 
 import jakarta.persistence.*;
 
+/**
+ * commentsテーブルのドメインを表すクラス.
+ *
+ * @author takuto.itami
+ */
 @Entity
 @Table(name = "comments")
 public class Comment {
@@ -16,6 +21,7 @@ public class Comment {
     /** 内容 */
     @Column(name = "content")
     private String content;
+    /** コメント先の記事 */
     @ManyToOne
     private Article article;
 
